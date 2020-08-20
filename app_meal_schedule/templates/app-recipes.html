@@ -12,7 +12,7 @@
     </div>
 
     <div class="col noPadding d-flex justify-content-end mb-2">
-      <a href="#" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">Dodaj przepis</a>
+      <a href="{% url "app-add-recipe" %}" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">Dodaj przepis</a>
     </div>
 
     <div class="col noPadding d-flex justify-content-end mb-2">
@@ -31,19 +31,47 @@
           <th class="col-2 center">AKCJE</th>
         </tr>
       </thead>
-
+      {% for i in recipe %}
       <tbody class="text-color-lighter">
+
         <tr class="d-flex">
-          <td class="col-1"></td>
-          <td class="col-2"></td>
-          <td class="col-7"></td>
+          <td class="col-1">{{ i.id }}</td>
+          <td class="col-2">{{ i.name }} ({{ i.votes }})</td>
+          <td class="col-7">{{ i.description }}</td>
           <td class="col-2 d-flex align-items-center justify-content-center flex-wrap">
             <a href="#" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
             <a href="#" class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
             <a href="#" class="btn btn-warning rounded-0 text-light m-1">Edytuj</a>
           </td>
         </tr>
+
       </tbody>
+      {% endfor %}
+    
+      <div class="pagination">
+        <span class="step-links">
+          <div class="center">
+            <span class="current">
+              Strona {{ recipe.number }} z {{ recipe.paginator.num_pages }}
+            </span>
+          </div>
+          <div class="center">
+            {% if recipe.has_previous %}
+            <a href="?page=1" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">&laquo; pierwsza</a>
+            <a href="?page={{ recipe.previous_page_number }}" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">
+                poprzednia</a>
+            {% endif %}
+          </div>
+          <div class="center">
+            {% if recipe.has_next %}
+            <a href="?page={{ recipe.next_page_number }}" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">
+                następna</a>
+            <a href="?page={{ recipe.paginator.num_pages }}" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">
+                ostatnia &raquo;</a>
+            {% endif %}
+          </div>
+        </span>
+      </div>
 
     </table>
   </div>
