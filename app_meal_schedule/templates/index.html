@@ -29,7 +29,7 @@
           <a class="nav-link" href="#about">o aplikacji</a>
         </li>
         <li class="nav-item ml-4">
-          <a class="nav-link disabled" href="#">Przepisy</a>
+          <a class="nav-link disabled" href="{% url "app-recipes" %}">Przepisy</a>
         </li>
         <li class="nav-item ml-4">
           <a class="nav-link disabled" href="#">Dodaj przepis do planu</a>
@@ -50,8 +50,8 @@
         <div class="carousel-item active center">
           <div class="container w-75 d-flex center">
             <div class="carousel-caption d-block center">
-              <h1>Temat 1</h1>
-              <h3>Opis 1</h3>
+              <h1>{{ first.name }}</h1>
+              <h3>Czas przygotowania: {{ first.preparation_time }} min</h3>
             </div>
           </div>
         </div>
@@ -59,8 +59,8 @@
         <div class="carousel-item center">
           <div class="container w-75 d-flex center">
             <div class="carousel-caption d-block center">
-              <h1>Temat 2</h1>
-              <h3>Opis 2</h3>
+              <h1>{{ second.name }}</h1>
+              <h3>Czas przygotowania: {{ second.preparation_time }} min</h3>
             </div>
           </div>
         </div>
@@ -68,8 +68,8 @@
         <div class="carousel-item center">
           <div class="container w-75 d-flex center">
             <div class="carousel-caption d-block center">
-              <h1>Temat 3</h1>
-              <h3>Opis 3</h3>
+              <h1>{{ third.name }}</h1>
+              <h3>Czas przygotowania: {{ third.preparation_time }} min</h3>
             </div>
           </div>
         </div>
@@ -99,7 +99,7 @@
 
       <div class="ml-4 align-self-center">
         <button class="btn btn-color rounded-0 mt-4 pl-4 pr-4">
-          <a href="#">Układaj plan</a>
+          <a href="{% url "dashboard" %}">Układaj plan</a>
         </button>
       </div>
     </div>
