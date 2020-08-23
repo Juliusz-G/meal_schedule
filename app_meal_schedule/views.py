@@ -180,3 +180,13 @@ class DeleteRecipe(View):
         recipe.delete()
         response = redirect('../')
         return response
+
+
+class SchedulePage(View):
+
+    def get(self, request):
+        plans = Plan.objects.all()
+        paginator = Paginator(plans, 2)
+        page = request.GET.get('page')
+        plan = paginator.get_page(page)
+        return render(request, "app-schedules.html", {"plan": plan})

@@ -1,0 +1,79 @@
+{% extends "__base__.html" %}
+
+{% block title %}Lista planów{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-content border-dashed p-3 m-4 view-height">
+  <div class="row border-bottom border-3 p-1 m-1">
+
+    <div class="col noPadding">
+      <h3 class="color-header text-uppercase">Lista planów</h3>
+    </div>
+
+    <div class="col d-flex justify-content-end mb-2 noPadding">
+      <a href="#" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">Dodaj plan</a>
+    </div>
+
+    <div class="col noPadding d-flex justify-content-end mb-2">
+      <a href="{% url 'dashboard' %}" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót do strony głównej</a>
+    </div>
+
+  </div>
+  <div class="schedules-content">
+
+    <table class="table border-bottom">
+
+      <thead>
+        <tr class="d-flex">
+          <th class="col-1">ID</th>
+          <th class="col-2">NAZWA</th>
+          <th class="col-7">OPIS</th>
+          <th class="col-2 center">AKCJE</th>
+        </tr>
+      </thead>
+
+      {% for i in plan %}
+      <tbody class="text-color-lighter">
+
+        <tr class="d-flex">
+          <td class="col-1">{{i.id}}</td>
+          <td class="col-2">{{i.name}}</td>
+          <td class="col-7"> {{i.description}}</td>
+          <td class="col-2 d-flex align-items-center justify-content-center flex-wrap">
+            <a href="#" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
+            <a href="#" class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
+            <a href="#" class="btn btn-warning rounded-0 text-light m-1">Edytuj</a>
+          </td>
+        </tr>
+
+      </tbody>
+      {% endfor %}
+
+      <div class="pagination">
+        <span class="step-links">
+          <div class="center">
+            <span class="current">Strona {{ plan.number }} z {{ plan.paginator.num_pages }}</span>
+          </div>
+          <div class="center">
+            {% if plan.has_previous %}
+            <a href="?page=1" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">&laquo; pierwsza</a>
+            <a href="?page={{ plan.previous_page_number }}" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">poprzednia</a>
+           {% endif %}
+          </div>
+          <div class="center">
+            {% if plan.has_next %}
+            <a href="?page={{ plan.next_page_number }}" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">
+                następna</a>
+            <a href="?page={{ plan.paginator.num_pages }}" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">
+                ostatnia &raquo;</a>
+            {% endif %}
+          </div>
+        </span>
+      </div>
+
+    </table>
+  </div>
+</div>
+
+{% endblock %}
