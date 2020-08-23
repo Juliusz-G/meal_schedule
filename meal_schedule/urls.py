@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 
 # local Django
-from app_meal_schedule.views import LandingPage, Dashboard, RecipePage, AddRecipe
+from app_meal_schedule.views import LandingPage, Dashboard, RecipePage, AddRecipe, RecipeDetails
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,4 +26,5 @@ urlpatterns = [
     path('main/', Dashboard.as_view(), name='dashboard'),
     path('recipe/list/', RecipePage.as_view(), name='app-recipes'),
     path('recipe/add/', AddRecipe.as_view(), name='app-add-recipe'),
+    path('recipe/<int:recipe_id>', RecipeDetails.as_view(), name='app-recipe-details'),
 ]

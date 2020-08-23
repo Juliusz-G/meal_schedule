@@ -71,12 +71,12 @@ class AddRecipe(View):
     def post(self, request):
         name = request.POST.get("name")
         description = request.POST.get("description")
+        preparation_method = request.POST.get("preparation_method")
         preparation_time = request.POST.get("preparation_time")
-        preparation_description = request.POST.get("preparation_description")
         ingredients = request.POST.get("ingredients")
-        if name and description and preparation_time and preparation_description and ingredients is not None:
-            recipe = Recipe.objects.create(name=name, description=description, preparation_time=int(preparation_time),
-                                           preparation_description=preparation_description, ingredients=ingredients)
+        if name and description and preparation_time and preparation_method and ingredients is not None:
+            recipe = Recipe.objects.create(name=name, description=description, preparation_method=preparation_method,
+                                           preparation_time=int(preparation_time), ingredients=ingredients)
             recipe.save()
             response = redirect(reverse_lazy('app-recipes'))
             return response
@@ -84,3 +84,38 @@ class AddRecipe(View):
             warning = "Wypełnij poprawnie wszystkie pola"
             ctx = {'warning': warning}
             return render(request, "app-add-recipe.html", ctx)
+
+
+class RecipeDetails(View):
+
+    def get(self, request, recipe_id):
+        recipe = Recipe.objects.get(pk=recipe_id)
+
+        ctx = {
+            "name": recipe.name,
+            "description": recipe.description,
+            "preparation_method": recipe.preparation_method,
+            "ingredients": recipe.ingredients,
+            "preparation_time": recipe.preparation_time,
+            "vote": recipe.votes
+        }
+        return render(request, "app-recipe-details.html", ctx)
+
+    def post(self, request, recipe_id):
+        recipe = Recipe.objects.get(pk=recipe_id)
+        if request.POST.get('like') == 'Polub przepis':
+            recipe.votes += 1
+            recipe.save()
+        elif request.POST.get('dislike') == 'Nie lubię przepisu':
+            recipe.votes -= 1
+            recipe.save()
+
+        ctx = {
+            "name": recipe.name,
+            "description": recipe.description,
+            "preparation_method": recipe.preparation_method,
+            "ingredients": recipe.ingredients,
+            "preparation_time": recipe.preparation_time,
+            "vote": recipe.votes
+        }
+        return render(request, "app-recipe-details.html", ctx)
