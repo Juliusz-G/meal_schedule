@@ -18,14 +18,20 @@ from django.contrib import admin
 from django.urls import path
 
 # local Django
-from app_meal_schedule.views import LandingPage, Dashboard, RecipePage, AddRecipe, RecipeDetails, EditRecipe
+from app_meal_schedule.views import LandingPage, Dashboard, RecipePage, AddRecipe, RecipeDetails, EditRecipe, \
+    DeleteRecipe
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    # MAIN
     path('', LandingPage.as_view(), name='landing-page'),
     path('main/', Dashboard.as_view(), name='dashboard'),
+
+    # RECIPE
     path('recipe/list/', RecipePage.as_view(), name='app-recipes'),
     path('recipe/add/', AddRecipe.as_view(), name='app-add-recipe'),
     path('recipe/<int:recipe_id>', RecipeDetails.as_view(), name='app-recipe-details'),
     path('recipe/edit/<int:recipe_id>', EditRecipe.as_view(), name='app-edit-recipe'),
+    path('recipe/list/delete/<int:recipe_id>', DeleteRecipe.as_view(), name='app-delete-recipe'),
 ]

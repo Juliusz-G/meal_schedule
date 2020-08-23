@@ -1,0 +1,22 @@
+{% extends "__base__.html" %}
+
+{% block title %}Usuń przepis{% endblock %}
+
+{% block content %}
+
+<form action="" method="POST">
+  {% csrf_token %}
+  <div class="dashboard-content border-dashed p-3 m-4 view-height">
+    <div style="text-align: center;">
+      <h1>Czy napewno chcesz usunąć {{ name }}?</h1>
+    </div>
+    <div style="text-align: center;">
+      <p>
+        <input type="submit" value="Tak" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4"/>
+        <a href="../" class="btn btn-danger rounded-0 pt-0 pb-0 pr-4 pl-4">Anuluj</a>
+      </p>
+    </div>
+  </div>
+</form>
+
+{% endblock %}

@@ -1,6 +1,6 @@
 # Django
 from django.core.paginator import Paginator
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
 
@@ -164,3 +164,19 @@ class EditRecipe(View):
                 "warning": warning
             }
             return render(request, "app-edit-recipe.html", ctx)
+
+
+class DeleteRecipe(View):
+
+    def get(self, request, recipe_id):
+        recipe = get_object_or_404(Recipe, pk=recipe_id)
+        ctx = {
+            "name": recipe.name
+        }
+        return render(request, "app-delete-recipe.html", ctx)
+
+    def post(self, request, recipe_id):
+        recipe = get_object_or_404(Recipe, pk=recipe_id)
+        recipe.delete()
+        response = redirect('../')
+        return response
