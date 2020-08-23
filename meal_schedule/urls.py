@@ -19,7 +19,7 @@ from django.urls import path
 
 # local Django
 from app_meal_schedule.views import LandingPage, Dashboard, RecipePage, AddRecipe, RecipeDetails, EditRecipe, \
-    DeleteRecipe, SchedulePage
+    DeleteRecipe, SchedulePage, AddSchedule
 
 urlpatterns = [
     # ADMIN
@@ -40,4 +40,5 @@ urlpatterns = [
 
     # PLAN
     path('plan/list/', SchedulePage.as_view(), name='app-schedules'),
+    path('plan/add/', AddSchedule.as_view(), name='app-add-schedules'),
 ]

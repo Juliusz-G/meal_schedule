@@ -190,3 +190,23 @@ class SchedulePage(View):
         page = request.GET.get('page')
         plan = paginator.get_page(page)
         return render(request, "app-schedules.html", {"plan": plan})
+
+
+class AddSchedule(View):
+
+    def get(self, request):
+        return render(request, "app-add-schedules.html")
+
+    def post(self, request):
+        name = request.POST.get("name")
+        description = request.POST.get("description")
+        if name and description:
+            plan = Plan.objects.create(name=name, description=description)
+            plan.save()
+            response = redirect('/plan/list')
+            return response
+
+        else:
+            warning = "Wypełnij poprawnie wszystkie pola"
+            ctx = {'warning': warning}
+            return render(request, "app-add-schedules.html", ctx)
