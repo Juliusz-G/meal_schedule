@@ -119,3 +119,48 @@ class RecipeDetails(View):
             "vote": recipe.votes
         }
         return render(request, "app-recipe-details.html", ctx)
+
+
+class EditRecipe(View):
+
+    def get(self, request, recipe_id):
+        recipe = Recipe.objects.get(pk=recipe_id)
+        ctx = {
+            "id": recipe.pk,
+            "name": recipe.name,
+            "description": recipe.description,
+            "ingredients": recipe.ingredients,
+            "preparation_time": recipe.preparation_time,
+            "preparation_method": recipe.preparation_method,
+            "vote": recipe.votes
+        }
+        return render(request, "app-edit-recipe.html", ctx)
+
+    def post(self, request, recipe_id):
+        name = request.POST.get("name")
+        description = request.POST.get("description")
+        preparation_time = request.POST.get("preparation_time")
+        preparation_method = request.POST.get("preparation_method")
+        ingredients = request.POST.get("ingredients")
+        if name and description and preparation_time and preparation_method and ingredients is not None:
+            Recipe.objects.filter(pk=recipe_id).update(name=name, ingredients=ingredients, description=description,
+                                                       preparation_time=int(preparation_time),
+                                                       preparation_method=preparation_method)
+
+            response = redirect(reverse_lazy('app-recipes'))
+            return response
+
+        else:
+            recipe = Recipe.objects.get(pk=recipe_id)
+            warning = "Wypełnij poprawnie wszystkie pola!"
+            ctx = {
+                "id": recipe.pk,
+                "name": recipe.name,
+                "description": recipe.description,
+                "ingredients": recipe.ingredients,
+                "preparation_time": recipe.preparation_time,
+                "preparation_method": recipe.preparation_method,
+                "vote": recipe.votes,
+                "warning": warning
+            }
+            return render(request, "app-edit-recipe.html", ctx)
