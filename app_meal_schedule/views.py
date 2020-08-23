@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from django.views import View
 
 # local Django
-from .models import DayName, Plan, Recipe, RecipePlan
+from .models import DayName, Plan, Recipe, RecipePlan, Days
 
 # third part
 import random
@@ -210,3 +210,101 @@ class AddSchedule(View):
             warning = "Wypełnij poprawnie wszystkie pola"
             ctx = {'warning': warning}
             return render(request, "app-add-schedules.html", ctx)
+
+
+class ScheduleDetails(View):
+
+    def get(self, request, recipe_plan_id):
+        recipe_plan = RecipePlan.objects.get(pk=recipe_plan_id)
+
+        ctx = {
+            "RecipePlan": recipe_plan,
+            "meal_name": recipe_plan.meal_name,
+            "order": recipe_plan.order,
+            "plan_name": Plan.objects.get(id=recipe_plan.Plan_id),
+            "recipe_name": Recipe.objects.get(id=recipe_plan.Recipe_id),
+            "recipe_id": recipe_plan.Recipe_id,
+            "day_name": DayName.objects.get(id=recipe_plan.DayName_id),
+            "days": DayName.objects.all(),
+        }
+
+        return render(request, "app-details-schedules.html", ctx)
+
+
+class EditSchedule(View):
+
+    def get(self, request, plan_id):
+        plan = Plan.objects.get(pk=plan_id)
+
+        ctx = {
+            "plan_name": plan.name,
+            "plan_description": plan.description
+        }
+        return render(request, "app-edit-schedules.html", ctx)
+
+    def post(self, request, plan_id):
+        plan_name = request.POST.get("plan_name")
+        plan_description = request.POST.get("plan_description")
+        if plan_name and plan_description:
+            Plan.objects.filter(pk=plan_id).update(name=plan_name, description=plan_description)
+
+            response = redirect('/plan/list')
+            return response
+
+        else:
+            plan = Plan.objects.get(pk=plan_id)
+            warning = "Wypełnij poprawnie wszystkie pola"
+
+            ctx = {
+                "warning": warning,
+                "plan_name": plan.name,
+                "plan_description": plan.description
+            }
+            return render(request, "app-edit-schedules.html", ctx)
+
+
+class DeleteSchedule(View):
+
+    def get(self, request, plan_id):
+        plan = get_object_or_404(Plan, pk=plan_id)
+        ctx = {
+            "name": plan.name
+        }
+        return render(request, "app-delete-schedule.html", ctx)
+
+    def post(self, request, plan_id):
+        plan = get_object_or_404(Plan, pk=plan_id)
+        plan.delete()
+        response = redirect('/plan/list/')
+        return response
+
+
+class AddRecipeToSchedulesDashboard(View):
+
+    def get(self, request):
+        plans = Plan.objects.all()
+        recipes = Recipe.objects.all()
+        days = DayName.objects.all()
+        ctx = {
+            "plans": plans,
+            "recipes": recipes,
+            "days": days
+        }
+        return render(request, "app-schedules-meal-recipe.html", ctx)
+
+    def post(self, request):
+        meal_name = request.POST.get("meal_name")
+        order = request.POST.get("order_id")
+        recipe_id = request.POST.get("recipe_id")
+        plan_id = request.POST.get("plan_id")
+        day_id = request.POST.get("day_id")
+
+        recipe = Recipe.objects.get(name=recipe_id)
+        plan = Plan.objects.get(name=plan_id)
+        day = DayName.objects.get(name=day_id)
+
+        if meal_name and order and recipe_id and plan_id and day_id:
+            m = RecipePlan.objects.create(meal_name=meal_name, order=order, Plan=plan,
+                                          Recipe=recipe, DayName=day)
+            m.save()
+            return redirect(f"/plan/add-recipe/")

@@ -1,0 +1,72 @@
+{% extends "__base__.html" %}
+
+{% block title %}Szczegóły planu{% endblock title %}
+
+{% block content %}
+
+<div class="dashboard-content border-dashed p-3 m-4 view-height">
+  <div class="row border-bottom border-3 p-1 m-1">
+    <div class="col noPadding">
+      <h3 class="color-header text-uppercase">Szczegóły planu</h3>
+    </div>
+    <div class="col d-flex justify-content-end mb-2">
+      <a href="{% url "app-schedules" %}" class="btn btn-color rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót</a>
+    </div>
+  </div>
+  <div class="schedules-content">
+    <div class="schedules-content-header">
+      <div class="form-group row">
+        <span class="col-sm-2 label-size col-form-label">Nazwa planu</span>
+        <div class="col-sm-10">
+          <p class="schedules-text">{{ plan_name.name }}</p>
+        </div>
+      </div>
+      <div class="form-group row">
+        <span class="col-sm-2 label-size col-form-label">Opis Planu</span>
+        <div class="col-sm-10">
+          <p class="schedules-text">{{ plan_name.description }}</p>
+        </div>
+      </div>
+    </div>
+    {% for day in days  %}
+    <table class="table">
+      <thead>
+        <tr class="d-flex">
+          <th class="col-2">{{day.name}}</th>
+          <th class="col-7"></th>
+          <th class="col-1"></th>
+          <th class="col-2"></th>
+        </tr>
+      </thead>
+      <tbody class="text-color-darker">
+        {%for plan in day.recipeplan_set.all%}
+        <tr class="d-flex">
+          <td class="col-2">{{ plan.meal_name }}</td>
+          <td class="col-6">{{ plan.recipe_name }}</td>
+          <td class="col-2 center">
+            <a href="/recipe/{{ recipe_id }}" class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
+          </td>
+          <td class="col-2 center">
+            <a href="/recipe/list/delete/{{ recipe_id }}" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <table class="table">
+      <thead>
+        <tr class="d-flex">
+          <th class="col-2"></th>
+          <th class="col-7"></th>
+          <th class="col-1"></th>
+          <th class="col-2"></th>
+        </tr>
+      </thead>
+      <tbody class="text-color-lighter">
+      </tbody>
+    </table>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock content %}
