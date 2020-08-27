@@ -25,17 +25,29 @@
         Zaplanuj<span>Jedzonko</span>
       </a>
       <ul class="nav nounderline text-uppercase">
+        {% if user.is_authenticated %}
+        <li class="nav-item ml-4">
+          <a class="nav-link color-header" href="{% url "logout" %}">Wyloguj</a>
+        </li>
+        <li class="nav-item ml-4">
+          <a class="nav-link disabled" href="{% url "recipes" %}">Przepisy</a>
+        </li>
+        <li class="nav-item ml-4">
+          <a class="nav-link disabled" href="{% url "add-recipe-to-schedule" %}">Dodaj przepis do planu</a>
+        </li>
+        {% else %}
+        <li class="nav-item ml-4">
+            <a class="nav-link color-header" href="{% url "login" %}">logowanie</a>
+        </li>
+        <li class="nav-item ml-4">
+            <a class="nav-link color-header" href="{% url "register" %}">rejestracja</a>
+        </li>
+        {% endif %}
         <li class="nav-item ml-4">
           <a class="nav-link" href="#about">o aplikacji</a>
         </li>
         <li class="nav-item ml-4">
-          <a class="nav-link disabled" href="{% url "app-recipes" %}">Przepisy</a>
-        </li>
-        <li class="nav-item ml-4">
-          <a class="nav-link disabled" href="#">Dodaj przepis do planu</a>
-        </li>
-        <li class="nav-item ml-4">
-          <a class="nav-link disabled" href="#contact">Kontakt</a>
+          <a class="nav-link" href="#contact">Kontakt</a>
         </li>
       </ul>
     </nav>
@@ -99,7 +111,11 @@
 
       <div class="ml-4 align-self-center">
         <button class="btn btn-color rounded-0 mt-4 pl-4 pr-4">
-          <a href="{% url "dashboard" %}">Układaj plan</a>
+          {% if user.is_authenticated %}
+          <a href="{% url "add-recipe-to-schedule" %}">Układaj plan</a>
+          {% else %}
+          <a href="{% url "login" %}">Układaj plan</a>
+          {% endif %}
         </button>
       </div>
     </div>

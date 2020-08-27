@@ -13,14 +13,15 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 # Django
 from django.contrib import admin
 from django.urls import path
 
 # local Django
-from app_meal_schedule.views import LandingPage, Dashboard, RecipePage, AddRecipe, RecipeDetails, EditRecipe, \
-    DeleteRecipe, SchedulePage, AddSchedule, ScheduleDetails, AddRecipeToSchedulesDashboard, EditSchedule, \
-    DeleteSchedule
+from app_meal_schedule.views import AddRecipeToSchedule, Dashboard, DeleteRecipeFromSchedule, LandingPage, Login, \
+    Logout, ProfileEdit, RecipeAdd, RecipeDetails, RecipeDelete, RecipeEdit, RecipeList, Register, ResetPassword, \
+    ScheduleAdd, ScheduleDetails, ScheduleDelete, ScheduleEdit, ScheduleList
 
 urlpatterns = [
     # ADMIN
@@ -33,19 +34,28 @@ urlpatterns = [
     path('main/', Dashboard.as_view(), name='dashboard'),
 
     # RECIPE
-    path('recipe/list/', RecipePage.as_view(), name='app-recipes'),
-    path('recipe/add/', AddRecipe.as_view(), name='app-add-recipe'),
-    path('recipe/<int:recipe_id>', RecipeDetails.as_view(), name='app-recipe-details'),
-    path('recipe/edit/<int:recipe_id>', EditRecipe.as_view(), name='app-edit-recipe'),
-    path('recipe/list/delete/<int:recipe_id>', DeleteRecipe.as_view(), name='app-delete-recipe'),
+    path('recipe/list/', RecipeList.as_view(), name='recipes'),
+    path('recipe/add/', RecipeAdd.as_view(), name='recipe-add'),
+    path('recipe/<int:recipe_id>', RecipeDetails.as_view(), name='recipe-details'),
+    path('recipe/edit/<int:recipe_id>', RecipeEdit.as_view(), name='recipe-edit'),
+    path('recipe/list/delete/<int:recipe_id>', RecipeDelete.as_view(), name='recipe-delete'),
 
     # PLAN
-    path('plan/list/', SchedulePage.as_view(), name='app-schedules'),
-    path('plan/add/', AddSchedule.as_view(), name='app-add-schedules'),
-    path('plan/<int:recipe_plan_id>', ScheduleDetails.as_view(), name='app-details-schedules'),
-    path('plan/edit/<int:plan_id>', EditSchedule.as_view(), name='app-edit-schedules'),
-    path('plan/list/delete/<int:plan_id>', DeleteSchedule.as_view(), name='app-delete-schedule'),
+    path('plan/list/', ScheduleList.as_view(), name='schedules'),
+    path('plan/add/', ScheduleAdd.as_view(), name='schedule-add'),
+    path('plan/<int:plan_id>', ScheduleDetails.as_view(), name='schedule-details'),
+    path('plan/edit/<int:plan_id>', ScheduleEdit.as_view(), name='schedule-edit'),
+    path('plan/list/delete/<int:plan_id>', ScheduleDelete.as_view(), name='schedule-delete'),
 
     # RECIPE PLAN
-    path('plan/add-recipe/', AddRecipeToSchedulesDashboard.as_view(), name='app-schedules-meal-recipe'),
+    path('plan/add-recipe/', AddRecipeToSchedule.as_view(), name='add-recipe-to-schedule'),
+    path('plan/delete-recipe/<int:order_id>', DeleteRecipeFromSchedule.as_view(),
+         name='delete-recipe-from-schedule'),
+
+    # USER
+    path('login/', Login.as_view(), name="login"),
+    path('logout/', Logout.as_view(), name="logout"),
+    path('register/', Register.as_view(), name="register"),
+    path('user/reset-password/<int:user_id>', ResetPassword.as_view(), name="reset-password"),
+    path('user/edit-profile/<int:user_id>', ProfileEdit.as_view(), name="profile-edit"),
 ]

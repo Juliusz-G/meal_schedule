@@ -23,8 +23,8 @@
           </label>
           <div class="col-sm-3">
             <select class="form-control" id="choosePlan" name="plan_id">
-            {% for i in plans %}
-              <option>{{i.name}}</option>
+            {% for plan in plans %}
+              <option>{{ plan.name }}</option>
             {% endfor %}
             </select>
           </div>
@@ -42,7 +42,8 @@
             Numer posiłku
           </label>
           <div class="col-sm-2">
-            <input name="order_id" type="number" class="form-control" value="" id="number" min="0" placeholder="Numer posiłku">
+            <input name="order_id" type="number" class="form-control" value="" id="number" min="0"
+                   placeholder="Numer posiłku">
           </div>
         </div>
         <div class="form-group row">
@@ -51,8 +52,8 @@
           </label>
           <div class="col-sm-4">
             <select class="form-control" name="recipe_id" id="recipe">
-            {% for i in recipes %}
-              <option>{{i.name}}</option>
+            {% for recipe in recipes %}
+              <option>{{ recipe.name }}</option>
             {% endfor %}
             </select>
           </div>
@@ -63,8 +64,8 @@
           </label>
           <div class="col-sm-2">
             <select name="day_id" class="form-control" id="day" >
-            {% for i in days %}
-              <option value="{{i}}">{{i.name}}</option>
+            {% for day in days %}
+              <option value="{{ day }}">{{ day.name }}</option>
             {% endfor %}
             </select>
           </div>

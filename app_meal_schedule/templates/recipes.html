@@ -12,11 +12,11 @@
     </div>
 
     <div class="col noPadding d-flex justify-content-end mb-2">
-      <a href="{% url "app-add-recipe" %}" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">Dodaj przepis</a>
+      <a href="{% url "recipe-add" %}" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">Dodaj przepis</a>
     </div>
 
     <div class="col noPadding d-flex justify-content-end mb-2">
-      <a href="{% url "dashboard" %}" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót do strony głównej</a>
+      <a href="{% url "dashboard" %}" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót do pulpitu</a>
     </div>
 
   </div>
@@ -31,17 +31,17 @@
           <th class="col-2 center">AKCJE</th>
         </tr>
       </thead>
-      {% for i in recipe %}
+      {% for r in recipe %}
       <tbody class="text-color-lighter">
 
         <tr class="d-flex">
-          <td class="col-1">{{ i.id }}</td>
-          <td class="col-2">{{ i.name }} ({{ i.votes }})</td>
-          <td class="col-7">{{ i.description }}</td>
+          <td class="col-1">{{ r.id }}</td>
+          <td class="col-2">{{ r.name }} ({{ r.votes }})</td>
+          <td class="col-7">{{ r.description }}</td>
           <td class="col-2 d-flex align-items-center justify-content-center flex-wrap">
-            <a href="{% url 'app-delete-recipe' i.id %}" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
-            <a href="{% url 'app-recipe-details' i.id %}" class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
-            <a href="{% url 'app-edit-recipe' i.id %}" class="btn btn-warning rounded-0 text-light m-1">Edytuj</a>
+            <a href="{% url "recipe-delete" r.id %}" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
+            <a href="{% url "recipe-details" r.id %}" class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
+            <a href="{% url "recipe-edit" r.id %}" class="btn btn-warning rounded-0 text-light m-1">Edytuj</a>
           </td>
         </tr>
 

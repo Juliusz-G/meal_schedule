@@ -1,6 +1,6 @@
 {% extends "__base__.html" %}
 
-{% block title %}Edytuj przepis{% endblock title %}
+{% block title %}Szczegóły przepisu{% endblock %}
 
 {% block content %}
 
@@ -10,34 +10,36 @@
     <div class="mt-4 ml-4 mr-4">
       <div class="row border-bottom border-3">
         <div class="col">
-          <h3 class="color-header text-uppercase">Edytuj przepisu<br>{{warning}}</h3>
+          <h3 class="color-header text-uppercase">Szczegóły przepisu</h3>
         </div>
         <div class="col d-flex justify-content-end mb-2">
-          <a href="{% url 'app-recipes' %}" class="btn btn-color rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót</a>
+          <a href="javascript:history.back()" class="btn btn-color rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót</a>
         </div>
         <div class="col d-flex justify-content-end mb-2">
-          <button type="submit" class="btn btn-color rounded-0 pt-0 pb-0 pr-4 pl-4">Zapisz</button>
+          <input type = "submit" class="btn btn-color rounded-0 pt-0 pb-0 pr-4 pl-4" value="Polub przepis" name="like">
+        </div>
+        <div class="col d-flex justify-content-end mb-2">
+          <input type = "submit" class="btn btn-color rounded-0 pt-0 pb-0 pr-4 pl-4" value="Nie lubię przepisu"
+                 name="dislike">
         </div>
       </div>
       <table class="table borderless">
         <tbody>
           <tr class="d-flex">
             <th scope="row" class="col-2">Nazwa Przepisu</th>
-            <td class="col-7">
-              <input name="name" type="text" class="w-100 p-1" value="{{ name }}">
-            </td>
+            <td class="col-7">{{ name }}</td>
           </tr>
           <tr class="d-flex">
             <th scope="row" class="col-2">Opis przepisu</th>
-            <td class="col-7">
-              <input name="description" type="text" class="w-100 p-1" rows="5" value="{{ description }}">
-            </td>
+            <td class="col-7">{{ description }}</td>
           </tr>
           <tr class="d-flex">
-            <th scope="row" class="col-2">Przygotowani(minuty)</th>
-            <td class="col-3">
-              <input name="preparation_time" class="p-1" type="number" value="{{ preparation_time }}" step="5" min="0">
-            </td>
+            <th scope="row" class="col-2">Przygotowanie (minuty)</th>
+            <td class="col-7">{{ preparation_time }}</td>
+          </tr>
+          <tr class="d-flex">
+            <th scope="row" class="col-2">Liczba polubień</th>
+            <td class="col-7">{{ vote }}</td>
           </tr>
         </tbody>
       </table>
@@ -52,15 +54,13 @@
       </div>
       <div class="row d-flex">
         <div class="col-5 p-4">
-          <textarea name="preparation_method" class="w-100 p-1" rows="10">{{ preparation_method }}</textarea>
+          <p>{{ preparation_method }}</p>
         </div>
         <div class="col-2"></div>
-        <div class="col-5 p-4">
-          <textarea name="ingredients" class="w-100 p-1" rows="10">{{ ingredients }}</textarea>
+          <ul class="col-5 p-4 list-unstyled">{{ ingredients }}</ul>
         </div>
       </div>
     </div>
-  </div>
 </form>
 
-{% endblock content %}
+{% endblock %}
